@@ -1,0 +1,22 @@
+2) When you run a database query, how do you make the database send result
+data to the client directly without loading all the result set onto its
+memory before sending it to client ? ( client here being a script, not the
+browser)
+
+Answer:
+To avoid loading all the data into memory before sending it to the client, 
+the best approach is to use database feature called "cursor-base pagination'
+or "result streaming". In simpler words, this approach works by sending the 
+data in chunks and if the client/script wants more of a data then we can send 
+the next chunk instead of sending all at once. This approach works best and can
+work more effectively if the data is saved in an efficient way and the sub-queries
+apply to specific columns i.e. conditions are precise and apply to specific set 
+instead of all. If there aren't conditions then offset work effectively.  
+Consider following as an example
+***
+SELECT id, name, salary
+FROM employee
+Where coditions
+ORDER BY salary
+LIMIT <chunk_size> OFFSET <offset_value>;
+***

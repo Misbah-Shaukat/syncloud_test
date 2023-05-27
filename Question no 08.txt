@@ -1,0 +1,14 @@
+8) (frontend question) In a large project with dozens of components, what would
+you do to ensure scalability?What things do you keep in mind while building a
+component? Finally, Use a third-party or go on with your own solution? How
+would you decide?
+
+Answer:
+To ensure scalability, without considering it as frontend/backend, the key to scalability
+as per my understanding is by keeping the things as generic as you can, for example if I have
+four columns in a database and I want to run some calculation on all of them and I know for 
+sure it will not change in future, then instead of writing all the column names hardcoded, I will
+fetch all the columns names from database and will run the required calculation of all, this way If 
+another column got added to the database in future then I will not have to worry about reviewing 
+and changindg all the code again, I always work like this i.e. keeping in mind that this code should be 
+scalable on its own, without any intervention. 

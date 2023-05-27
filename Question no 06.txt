@@ -1,0 +1,9 @@
+6) python is known to have a global interpreter lock, can you still run python
+code in parallel across multiple physical cores ? elaborate on the answer
+
+Answer:
+The simplest answer is first deciding whether the task is I/O bound 
+or not. If it is I/O bound then multithreading works fine, if not then 
+mutltiprocessing is the way to go. But most of the time multithreading 
+works alot better if we combine it with other multiprocessing modules like
+ray, dask etc. This way it utilizes 100% of the resources in an efficient way.

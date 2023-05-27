@@ -1,0 +1,26 @@
+ 3) In production; service processes usually go down for many reasons. how to
+ensure they get restarted when that happens ?
+
+Answer:
+There is a script that always works well, and I always use it. 
+This script always rerun the process if it ever get haulted due to any reason
+ensuring an always running process.
+***
+from subprocess import run
+from time import sleep
+import time
+# Path and name to the script you are trying to start
+file_path = "ray_dask_lgs.py" 
+restart_timer =3
+
+def start_script():
+    try:
+        print("restarted")
+        run("python "+file_path, check=True) 
+    except:
+        handle_crash()
+def handle_crash():
+    sleep(restart_timer)  # Restarts the script after 2 seconds
+    start_script()
+start_script()
+***

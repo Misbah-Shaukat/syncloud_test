@@ -1,0 +1,16 @@
+7) our sysadmin team deploy our project from github onto two servers, usually
+this operation results in a 1 hour downtime. our estimates say we will need
+about 20 servers to handle the load during next months. we cannot afford to
+have 20 * 1 hours downtime to make new deployments, how can we
+efficiently deploy our projects onto these 20 servers with minimal downtime ?
+
+Answer:
+The best way is to use  rolling deployment approach. I would solve this problem as follows
+1)First, I will divide the 20 servers into smaller groups, let's say four groups of five servers each. 
+This way, I could deploy to each group one at a time, this way there is always a portion of the servers 
+running and serving the application.
+2)I would start with the first group of servers first and performed the deployment process 
+on those servers while keeping the other groups running as usual. This would allowe me to avoid 
+the complete downtime.
+3)Once the deployment on the first group successfully completes, I would moved on to the next group, 
+repeating the process until all the groups are updated with the new project version.

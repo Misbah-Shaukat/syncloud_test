@@ -1,0 +1,20 @@
+5) we have 100 separate python scripts connecting at the same time to a
+central postgres database to perform multiple operations like reads and
+writes postgres creates a separate process for each of these clients, which is
+not efficient and consumes too much resources. how to make the central
+postgres db handle these concurrent connexions more efficiently ?
+
+Answer:
+When I was hit with this problem previously, I found that the best approach to make 
+the central Postgres database handle concurrent connections more efficiently was by 
+implementing a connection pooling mechanism.
+Connection pooling allows us to reuse database connections instead of creating a 
+separate process for each client script. With connection pooling, a fixed number 
+of database connections are established in advance, and when a client script needs 
+to perform an operation, it borrows a connection from the pool and returns it 
+when done.
+By reusing connections, we reduce the overhead of creating new connections 
+for each script, which saves system resources and improves performance. 
+It also ensures that the number of connections to the database remains within 
+a manageable range.
+

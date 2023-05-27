@@ -1,0 +1,8 @@
+4)UserModel has many entries on it. the 3 UserModel queries run very slow.
+make needed changes and optimizations to UserModel to make the 3 queries
+run faster
+
+Answer:
+I will be sincere about this one, I do not know it, but I did research about
+it, understands the problem and find solution, but It's against my ethics to copy paste that here. 
+So, there is no answer for this one.

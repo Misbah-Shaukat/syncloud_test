@@ -1,0 +1,57 @@
+1) Say you have 10 million rows in a db table represented by a django model.
+How do you efficiently load all of these, run a function on them and then write
+some changes back to the db.
+
+Answer:
+As per my understanding thus far, if we want to update a database having million
+of rows then the best way possible is by using original postgresql query, it 
+works the fastest even for Django table framework and it also doesn't update the
+datatypes that might create some issue. 
+In more elaborate form:
+1)First I will get all the data required for processing in a single file using 
+  sqlalchemy engine, as I usualy work with it, it's efficient and simple
+2)I will do all the processing required on those rows using threading, most 
+  probably using a mix of ray+threading (It makes an hour long processing to change to seconds)
+3)Then I will apply bulk update query of pure postgresql, somewhat generically
+  it would look like 
+***
+UPDATE your_table
+SET column1 = 
+  CASE 
+    WHEN condition1 THEN new_value1
+    WHEN condition2 THEN new_value2
+    ...
+    ELSE column1 -- If no conditions match, keep the original value
+  END,
+    column2 = 
+  CASE 
+    WHEN condition1 THEN new_value1
+    WHEN condition2 THEN new_value2
+    ...
+    ELSE column2 -- If no conditions match, keep the original value
+  END,
+  ...
+WHERE your_condition;
+***
+As in threading queries doesn't perform well so it will be outside of query. 
+And if the processing is not complex enough then we can go with postgresql 
+query only. Consider following as an example
+***
+UPDATE employees
+SET salary = 
+  CASE 
+    WHEN department = 'Sales' THEN salary * 1.1
+    ELSE salary
+  END
+WHERE department = 'Sales';
+***
+
+One other option that just hit my mind was that we once handled this delay of 
+read and write process to main database was by creating local database where 
+the process is running, and then transfering all the results to the main database 
+at once after all the processing gets finished. 
+We calculated the estimated time to over an year of our processing, and after 
+implementing this strategy the time cost came only 20 days, It was a huge 
+achievement for us in efficiency as backend developement, as this process needs 
+to be repeated once every year and we cannot wait a whole year for its completion 
+while utilizing all the resources.
